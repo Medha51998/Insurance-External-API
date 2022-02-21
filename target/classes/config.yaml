@@ -1,0 +1,12 @@
+mysql: 
+  host: "bchqluq351prmuklngve-mysql.services.clever-cloud.com"
+  user: "![QR6bVlmBpKC5NCsw8T63+Jf8pjeJu8vn]"
+  password: "![Cz7D3Z2Qlk8oGb8xDBMHTTyYGsBRjpeX]"
+  port: "3306"
+  database: "bchqluq351prmuklngve"
+  
+  
+api:
+  id: "17650182"
+  anypoint.platform.client_id: "c6b4fa96b2184b3791604b1a6fe211ac"
+  anypoint.platform.client_secret: "0727E322469341Ffa591e5e5dca1d2bA"

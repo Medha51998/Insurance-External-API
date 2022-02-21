@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: insurance-sys-externalprovider
+
+/quotes:
+  get:
+    queryParameters:
+      
+      id: number
+    responses:
+        200:
+            body:
+                application/json:
+                  examples: !include examples/example.raml
+                    

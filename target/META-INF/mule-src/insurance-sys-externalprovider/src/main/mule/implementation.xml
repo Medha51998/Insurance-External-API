@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="51d745d6-9bf2-4556-94e6-3653b2979fa2" >
+		<db:my-sql-connection host="${mysql.host}" port="${mysql.port}" user="${mysql.user}" password="${mysql.password}" database="${mysql.database}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="5fa8ac64-17e1-41ae-babc-c716bc9ebd00" file="config.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5cc809bf-6388-4b8c-81ef-6151d4295bc3" file="config.yaml" key="mulesoft" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<flow name="getQuoteResponseFlow" doc:id="abc0cdfe-70ac-41c4-8988-3c0c9f05764e" >
+		<db:select doc:name="Select" doc:id="eda03323-1086-42a5-9a1e-e513debbd637" config-ref="Database_Config">
+			<db:sql ><![CDATA[select ID, insured_name, DOB,address,insuranceperiod,sumInsured,premium  from insurance_qt_dtls where ID= :id;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{id :  attributes.queryParams.id}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="611aadea-347f-47a8-b102-a9e9521952a9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e5c81396-105e-4547-819e-c67a266dca82" message="#[payload]"/>
+	</flow>
+</mule>
